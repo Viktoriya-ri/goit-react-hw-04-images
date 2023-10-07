@@ -3,9 +3,9 @@ import { LineWave } from 'react-loader-spinner';
 export const Loader = () => {
   return (
     <LineWave
-        height="100"
-        width="100"
-        color="darkgeen"
+        height="150"
+        width="150"
+        color="geen"
         ariaLabel="line-wave"
         wrapperStyle={{}}
         wrapperClass=""
