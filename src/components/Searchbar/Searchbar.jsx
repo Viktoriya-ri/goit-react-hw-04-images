@@ -1,50 +1,49 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { SearchbarHeader, Form, Button, Input } from './Searchbar.styled';
 
-export default class Searchbar extends Component {
-  state = {
-    searchQuery: ``,
+const Searchbar = ({ onSubmit }) => {
+
+  const [searchQuery, setSearchQuery] = useState(``);
+
+  const handleQueryChange = ({ currentTarget: { value } }) => {
+    setSearchQuery(value.toLowerCase());
   };
 
-  handleQueryChange = ({ currentTarget: { value } }) => {
-    this.setState({ searchQuery: value.toLowerCase() });
-  };
-
-  handleSubmit = e => {
-    const searchQuery = this.state.searchQuery.trim();
+  const handleSubmit = e => {
     e.preventDefault();
+    const trimSearchQuery = searchQuery.trim();
 
-    if (searchQuery.trim() === '') {
+    if (trimSearchQuery === '') {
       toast.info('Please, enter search word!');
       return;
     }
 
-    this.props.onSubmit(searchQuery);
-    this.setState({ searchQuery: '' });
+    onSubmit(trimSearchQuery);
+    setSearchQuery('');
   };
 
-  render() {
-    const { searchQuery } = this.state;
-    return (
-      <SearchbarHeader className="searchbar">
-        <Form className="form" onSubmit={this.handleSubmit}>
-          <Button type="submit" className="button">
-            <span className="button-label">Search</span>
-          </Button>
-          <Input
-            className="input"
-            type="text"
-            autocomplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            name="searchQuery"
-            value={searchQuery}
-            onChange={this.handleQueryChange}
-          />
-        </Form>
-      </SearchbarHeader>
-    );
-  }
-}
+  return (
+    <SearchbarHeader className="searchbar">
+      <Form className="form" onSubmit={handleSubmit}>
+        <Button type="submit" className="button">
+          <span className="button-label">Search</span>
+        </Button>
+        <Input
+          className="input"
+          type="text"
+          autocomplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          name="searchQuery"
+          value={searchQuery}
+          onChange={handleQueryChange}
+        />
+      </Form>
+    </SearchbarHeader>
+  );
+};
+
+export default Searchbar;
+
